@@ -4,7 +4,7 @@ from flask_jwt_extended import jwt_required, current_user, unset_jwt_cookies, se
 
 from.index import index_views
 
-from App.controllers import (
+from Backend.controllers import (
     login,
 
 )
