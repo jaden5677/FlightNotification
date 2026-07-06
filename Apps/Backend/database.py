@@ -1,7 +1,10 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from sqlalchemy import create_engine
 
-
+user = "jsooklal"
+password = "JussyBoi5677"
+host = "127.0.0.1"
 db = SQLAlchemy()
 
 def get_migrate(app):
