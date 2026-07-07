@@ -4,7 +4,7 @@ class Flights(db.Model):
     __tablename__ = "flights"
     id = db.Column(db.Integer, primary_key = True)
     flight_number = db.Column(db.String(10), nullable = False, unique = True)
-    departure_airport = db.Column(db.String(50), nullable = False)
+    departure_airport = db.Column(db.String(20), nullable = False)
     arrival_airport = db.Column(db.String(50), nullable = False)
     departure_time = db.Column(db.DateTime, nullable = False)
     arrival_time = db.Column(db.DateTime, nullable = False)
