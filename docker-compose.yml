@@ -1,0 +1,38 @@
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: flightnotification-db
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD}
+      MSSQL_PID: Developer
+    volumes:
+      - ./mssql-data:/var/opt/mssql
+    # No ports published to the host: Zscaler blocks host-level access to 1433.
+    # The backend reaches this service only over the internal compose network.
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P \"$$MSSQL_SA_PASSWORD\" -C -Q 'SELECT 1' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 45s
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./Apps/Backend
+      dockerfile: .Dockerfile
+    container_name: flightnotification-backend
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      FLASK_APP: wsgi.py
+      SECRET_KEY: ${SECRET_KEY}
+      DB_HOST: db
+      DB_NAME: FlightNotificationDb
+      MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD}
+      SQLALCHEMY_DATABASE_URI: "mssql+pyodbc://sa:${MSSQL_SA_PASSWORD}@db:1433/FlightNotificationDb?driver=ODBC+Driver+18+for+SQL+Server&TrustServerCertificate=yes"
+    ports:
+      - "8080:8080"
+    restart: unless-stopped

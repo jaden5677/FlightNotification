@@ -6,7 +6,6 @@
   "scripts": {
     "init": "flask init",
     "serve": "flask run",
-    "e2e": "mocha ./e2e/test.js",
     "prod-serve": "gunicorn -c gunicorn_config.py wsgi:app"
   },
   "repository": {
