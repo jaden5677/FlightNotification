@@ -1,13 +1,5 @@
 from Backend.database import db
-from enum import Enum
-
-class NotifType(Enum):
-    DELAY = "Delay"
-    CANCELLATION = "Cancellation"
-    GATE_CHANGE = "Gate Change"
-    BOARDING_CALL = "Boarding Call"
-    OTHER = "Other"
-
+from notiftype import *
 
 class Notification(db.Model):
     __tablename__ = 'notifications'
@@ -30,7 +22,7 @@ class Notification(db.Model):
     def get_json(self):
         return {
             'id': self.id,
-            'flight_id': self.flight_id,
+            'flight_number': self.flight_number,
             'notif_type': self.notif_type.value,
             'message': self.message,
             'gate': self.gate,

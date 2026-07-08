@@ -1,11 +1,7 @@
 from werkzeug.security import check_password_hash, generate_password_hash
 from Backend.database import db
-from enum import Enum
 
-class AccountTypeEnum(Enum):
-    ADMIN = 1
-    USER = 2
-
+from accttype import *
 
 
 class User(db.Model):
@@ -14,8 +10,8 @@ class User(db.Model):
     fName =  db.Column(db.String(20), nullable=False, unique=True)
     lName = db.Column(db.String(20), nullable=False, unique=True)
     email = db.Column(db.String(60), nullable=False, unique=True)
-    passportIDN = db.Column(db.String(20), nullable=False, unique = True)
-    password = db.Column(db.String(256), nullable=False)
+    passportIDN = db.Column(db.String(20), nullable=True, unique = True)
+    password = db.Column(db.String(256), nullable=True)
     nationality = db.Column(db.String(20), nullable = False)
     DOB = db.Column(db.Date, nullable = False)
     gender = db.Column(db.String(1), nullable = True)
@@ -25,23 +21,22 @@ class User(db.Model):
 
 
 
-    def __init__(self, usersID, fName, lName, email, passportIDN, password, nationality, DOB, gender, cNumber, aType, specialR):
-        self.usersID = usersID
+    def __init__(self, fName, lName, email, passportIDN, password, nationality, DOB, gender, cNumber, aType, specialR):
         self.fName = fName
         self.lName = lName
         self.email = email
         self.passportIDN = passportIDN
+        self.aType = aType
         self.set_password(password)
         self.nationality = nationality
         self.DOB = DOB
         self.gender = gender
         self.cNumber = cNumber
-        self.aType = aType
         self.specialR = specialR
 
     def get_json(self):
         return{
-            'id': self.id,
+            'id': self.usersID,
             'fname': self.fName,
             'lname': self.lName,
             'email':self.email,
@@ -56,8 +51,11 @@ class User(db.Model):
 
     def set_password(self, password):
         """Create hashed password."""
-        self.password = generate_password_hash(password)
-    
+        if password and self.aType == AccountTypeEnum.ADMIN:
+            self.password = generate_password_hash(password)
+        else:
+            password = None
+    S
     def check_password(self, password):
         """Check hashed password."""
         return check_password_hash(self.password, password)

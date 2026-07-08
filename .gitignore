@@ -1,13 +1,15 @@
-App/temp-database.db
+Apps/Backend/temp-database.db
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
-App/custom_config.py
+Apps/Backend/custom_config.py
 # C extensions
 *.so
 
-migrations/*
+# MSSQL bind-mounted data directory (local dev persistence, not source)
+mssql-data/
+.env
 
 # Distribution / packaging
 .Python

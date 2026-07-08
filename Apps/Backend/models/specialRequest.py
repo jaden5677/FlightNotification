@@ -7,7 +7,6 @@ class SpecialRequest(db.Model):
     description = db.Column(db.String(200), nullable = False)
 
     def __init__(self,id, name, description):
-        self.id = id
         self.name = name
         self.description = description
     

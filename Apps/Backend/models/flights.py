@@ -10,8 +10,7 @@ class Flights(db.Model):
     arrival_time = db.Column(db.DateTime, nullable = False)
     aircraftype =db.Column(db.String(20), nullable = False)
 
-    def __init__(self, id, flight_number, departure_airport, arrival_airport, departure_time, arrival_time, aircraftype):
-        self.id = id
+    def __init__(self, flight_number, departure_airport, arrival_airport, departure_time, arrival_time, aircraftype):
         self.flight_number = flight_number
         self.departure_airport = departure_airport
         self.arrival_airport = arrival_airport

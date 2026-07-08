@@ -16,4 +16,11 @@ def get_all_flights():
     result = db.session.execute(db.select(Flights))
     return result.scalars().all()
 
+def get_all_json_flights():
+    flights = get_all_flights()
+    if flights is not None:
+        for flight in flights:
+            alljson += flight.get_json()
+        return alljson
+    return None
 
