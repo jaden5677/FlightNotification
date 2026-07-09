@@ -9,6 +9,8 @@ set -e
 sqlcmd -S "$DB_HOST" -U sa -P "$MSSQL_SA_PASSWORD" -C -Q \
     "IF DB_ID('$DB_NAME') IS NULL CREATE DATABASE [$DB_NAME]"
 
-flask db upgrade
+# There is no Flask-Migrate migrations/ tree; the schema + seed data are
+# created idempotently by `flask init` (initialize() -> create_all + seed).
+flask init
 
-exec gunicorn -c gunicorn_config.py wsgi:app
+exec gunicorn -c Backend/gunicorn_config.py Backend.wsgi:app

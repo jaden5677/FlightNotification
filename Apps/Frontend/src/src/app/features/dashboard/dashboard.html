@@ -1,0 +1,79 @@
+<h1 class="page-title">Notifications Dashboard</h1>
+<p class="subtitle">Notifications sent, grouped by flight</p>
+
+@if (loading()) {
+  <div class="loading">
+    <mat-spinner diameter="48"></mat-spinner>
+  </div>
+} @else if (error()) {
+  <div class="state-card">
+    <mat-icon>error_outline</mat-icon>
+    <p>Could not load notifications. Please try again.</p>
+  </div>
+} @else {
+  <div class="summary">
+    <div class="stat">
+      <span class="stat-value">{{ totalNotifications() }}</span>
+      <span class="stat-label">Notifications sent</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value">{{ groups().length }}</span>
+      <span class="stat-label">Flights with activity</span>
+    </div>
+  </div>
+
+  @for (group of groups(); track group.flightNumber) {
+    <mat-card class="flight-card">
+      <mat-card-header class="flight-header">
+        <div class="flight-title">
+          <span class="flight-number">{{ group.flightNumber }}</span>
+          @if (group.flight) {
+            <span class="route">
+              {{ group.flight.departure_airport }} → {{ group.flight.arrival_airport }}
+            </span>
+            <span class="depart">
+              Departs {{ group.flight.departure_time | date: 'mediumDate' }}
+            </span>
+          }
+        </div>
+        <div class="flight-meta">
+          @if (group.passengerCount !== null) {
+            <span class="meta-chip">
+              <mat-icon>groups</mat-icon>
+              {{ group.passengerCount }} passengers on flight
+            </span>
+          }
+          <span class="meta-chip">
+            <mat-icon>notifications</mat-icon>
+            {{ group.notifications.length }} sent
+          </span>
+        </div>
+      </mat-card-header>
+
+      <mat-card-content>
+        <ul class="notif-list">
+          @for (notif of group.notifications; track notif.id) {
+            <li class="notif-item">
+              <div class="notif-top">
+                <mat-chip class="type-chip">{{ notif.notif_type }}</mat-chip>
+                <span class="notif-time">{{ notif.created_at | date: 'medium' }}</span>
+              </div>
+              <p class="notif-message">{{ notif.message }}</p>
+              <div class="notif-footer">
+                @if (notif.gate) {
+                  <span class="notif-gate">Gate {{ notif.gate }}</span>
+                }
+                <span class="notif-by">Sent by {{ notif.created_by }}</span>
+              </div>
+            </li>
+          }
+        </ul>
+      </mat-card-content>
+    </mat-card>
+  } @empty {
+    <div class="state-card">
+      <mat-icon>notifications_off</mat-icon>
+      <p>No notifications have been sent yet.</p>
+    </div>
+  }
+}

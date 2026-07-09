@@ -1,5 +1,5 @@
 from Backend.database import db
-from notiftype import *
+from Backend.models.notiftype import NotifType
 
 class Notification(db.Model):
     __tablename__ = 'notifications'

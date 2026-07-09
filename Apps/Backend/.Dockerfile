@@ -25,12 +25,16 @@ RUN adduser --disabled-password --gecos "" nonroot \
     && mkdir -p /var/log/flask-app \
     && chown -R nonroot:nonroot /home/app /var/log/flask-app
 
-COPY --chown=nonroot:nonroot . .
-RUN chmod +x entrypoint.sh
+# The application code imports `from Backend...`, so the build context (the
+# contents of Apps/Backend) must live under a `Backend/` package dir that sits
+# on PYTHONPATH — not flat in the workdir.
+COPY --chown=nonroot:nonroot . ./Backend
+RUN chmod +x Backend/entrypoint.sh
 
-ENV FLASK_APP=wsgi.py
+ENV PYTHONPATH=/home/app
+ENV FLASK_APP=Backend.wsgi
 
 USER nonroot
 EXPOSE 8080
 
-ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT ["./Backend/entrypoint.sh"]

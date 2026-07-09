@@ -13,6 +13,13 @@ def list_notification_by_flight(flight_number):
 
 def list_json_notifications_by_flight_id(flight_id):
     notifications = list_notification_by_flight(flight_id)
-    for notification in notifications:
-        alljson += notification.get_json()
-    return alljson
+    return [notification.get_json() for notification in notifications]
+
+def list_all_notifications():
+    result = db.session.execute(
+        db.select(Notification).order_by(Notification.created_at.desc())
+    )
+    return result.scalars().all()
+
+def list_all_json_notifications():
+    return [notification.get_json() for notification in list_all_notifications()]

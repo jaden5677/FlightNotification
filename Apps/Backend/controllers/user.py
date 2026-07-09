@@ -1,8 +1,8 @@
 from Backend.models import User
 from Backend.database import db
 
-def create_user(fName, lName, email, passportIDN, password, nationality, DOB, gender, cNumber, aType, specialR):
-    newuser = User(password=password, fName = fName, lName = lName, email = email, passportIDN = passportIDN, nationality = nationality, DOB = DOB, gender = gender, cNumber = cNumber, aType = aType, specialR = specialR)
+def create_user(UID, fName, lName, email, passportIDN, password, nationality, DOB, gender, cNumber, aType, specialR):
+    newuser = User(UID = UID, password=password, fName = fName, lName = lName, email = email, passportIDN = passportIDN, nationality = nationality, DOB = DOB, gender = gender, cNumber = cNumber, aType = aType, specialR = specialR)
     db.session.add(newuser)
     db.session.commit()
     return newuser

@@ -1,0 +1,45 @@
+<h1 class="page-title">Notification System</h1>
+<p class="subtitle">Search Customers to notify</p>
+
+<div class="search-card">
+  <form class="search-form" (ngSubmit)="search()">
+    <mat-form-field appearance="outline" class="field">
+      <mat-label>Select Flight Date</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        [ngModel]="selectedDate()"
+        (ngModelChange)="onDateChange($event)"
+        name="date"
+      />
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="field">
+      <mat-label>Select Flight Number</mat-label>
+      <mat-select
+        [ngModel]="selectedFlightNumber()"
+        (ngModelChange)="selectedFlightNumber.set($event)"
+        [disabled]="!selectedDate()"
+        name="flightNumber"
+      >
+        @for (flight of flights(); track flight.id) {
+          <mat-option [value]="flight.flight_number">
+            {{ flight.flight_number }} - {{ flight.departure_airport }}/{{ flight.arrival_airport }}
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <button
+      mat-flat-button
+      color="primary"
+      type="submit"
+      class="search-button"
+      [disabled]="searching() || !selectedFlightNumber()"
+    >
+      Search Flight
+    </button>
+  </form>
+</div>

@@ -1,0 +1,58 @@
+<h1 class="page-title">Notification System</h1>
+<p class="subtitle">Select Passengers to notify</p>
+
+<div class="table-card">
+  @if (loading()) {
+    <div class="loading"><mat-spinner diameter="36"></mat-spinner></div>
+  } @else {
+    <table class="passenger-table">
+      <thead>
+        <tr>
+          <th>NAME</th>
+          <th>ORIGIN</th>
+          <th>DESTINATION</th>
+          <th>ARRIVAL</th>
+          <th>DEPARTURE</th>
+          <th>FLIGHT NUM</th>
+          <th class="select-col">
+            SELECT ALL
+            <mat-checkbox
+              [checked]="allSelected()"
+              [indeterminate]="someSelected()"
+              (change)="toggleAll($event.checked)"
+            ></mat-checkbox>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (p of passengers(); track p.id) {
+          <tr [class.selected-row]="isSelected(p.id)">
+            <td>{{ p.name }}</td>
+            <td>{{ p.origin }}</td>
+            <td>{{ p.destination }}</td>
+            <td>{{ p.arrival | date: 'HH:mm' }}</td>
+            <td>{{ p.departure | date: 'HH:mm' }}</td>
+            <td>{{ p.flight_number }}</td>
+            <td class="select-col">
+              <mat-checkbox
+                [checked]="isSelected(p.id)"
+                (change)="toggleOne(p.id)"
+              ></mat-checkbox>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="7" class="empty-state">No passengers found for this flight.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>
+
+<div class="actions">
+  <button mat-flat-button color="primary" [disabled]="selectedCount() === 0" (click)="connect()">
+    Connect
+  </button>
+  <button mat-stroked-button (click)="cancel()">Cancel</button>
+</div>

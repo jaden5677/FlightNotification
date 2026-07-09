@@ -36,3 +36,16 @@ services:
     ports:
       - "8080:8080"
     restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./Apps/Frontend/src
+      dockerfile: .Dockerfile
+    container_name: flightnotification-frontend
+    depends_on:
+      - backend
+    # Browser loads the app from :4200 and calls the backend at the host's
+    # published :8080 (baked into API_BASE_URL), so no reverse proxy is needed.
+    ports:
+      - "4200:80"
+    restart: unless-stopped

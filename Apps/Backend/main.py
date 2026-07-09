@@ -10,7 +10,6 @@ from Backend.config import load_config
 
 from Backend.controllers import (
     setup_jwt,
-    add_auth_context
 )
 
 from Backend.views import views
@@ -25,7 +24,6 @@ def create_app(overrides={}):
     app = Flask(__name__, static_url_path='/Backend')
     load_config(app, overrides)
     CORS(app)
-    add_auth_context(app)
     add_views(app)
     init_db(app)
     jwt = setup_jwt(app)
