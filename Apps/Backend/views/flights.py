@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, jsonify, request, send_from_directory, flash, redirect, url_for
-from flask_jwt_extended import jwt_required, current_user as jwt_current_user
+from flask_jwt_extended import jwt_required, get_jwt_identity, current_user as jwt_current_user
 
 from Backend.controllers.flights import (
     createflight,
@@ -11,6 +11,9 @@ from Backend.controllers.notification import(
     list_notification_by_flight,
     create_notification,
     list_json_notifications_by_flight_id
+)
+from Backend.controllers.passenger import (
+    list_json_passengers_by_flight
 )
 from Backend.models.notiftype import *
 
@@ -27,10 +30,10 @@ def get_flights_action():
 
 @flight_views.route('/api/flights/<flight_number>', methods=['Get'])
 @jwt_required()
-def get_flight_by_flightnumber_action(flightnumber):
-    flight = getflight_by_number(flightnumber)
+def get_flight_by_flightnumber_action(flight_number):
+    flight = getflight_by_number(flight_number)
     if flight is None:
-        return jsonify(message=f"Flight with flight number {flightnumber} not found"), 404
+        return jsonify(message=f"Flight with flight number {flight_number} not found"), 404
     return flight.get_json(), 201
 
 @flight_views.route('/api/flights', methods=['POST'])
@@ -47,14 +50,22 @@ def create_flight_action():
     )
     return flight.get_json(), 201
 
+@flight_views.route('/api/flights/<flight_number>/passengers', methods = ['Get'])
+@jwt_required()
+def get_passengers_by_flight_action(flight_number):
+    flight = getflight_by_number(flight_number)
+    if flight is None:
+        return jsonify(message=f"flight with flight number {flight_number} not found"), 404
+    return jsonify(list_json_passengers_by_flight(flight_number))
+
 @flight_views.route('/api/flights/<flight_number>/notifications', methods = ['Get'])
 @jwt_required()
 def get_notifications_by_flight_action(flight_number):
     flight = getflight_by_number(flight_number)
     if flight is None:
         return jsonify(message=f"flight with flight number {flight_number} not found"), 404
-    
-    return list_json_notifications_by_flight_id(flight_number)
+
+    return jsonify(list_json_notifications_by_flight_id(flight_number))
 
 @flight_views.route('/api/flights/<flight_number>/notify', methods = ['POST'])
 @jwt_required()
@@ -62,12 +73,12 @@ def create_notification_for_flight_action(flight_number):
     flight = getflight_by_number(flight_number)
     if flight is None:
         return jsonify(message=f"flight with flight number {flight_number} not found"), 404
-    data = request.json
+    data = request.json or {}
     notification = create_notification(
       flight_id=flight_number,
-      notif_type = NotifType[int(data['notif_type']).upper()],
+      notif_type = NotifType[data.get('notif_type', 'OTHER').upper()],
       message = data['message'],
-      gate = data['gate'],
-      created_by = data['created_by']
+      gate = data.get('gate'),
+      created_by = get_jwt_identity()
     )
     return notification.get_json(), 201

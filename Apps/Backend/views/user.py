@@ -24,6 +24,7 @@ def get_users_action():
 def create_user_endpoint():
     data = request.json
     user = create_user(
+        UID = data['UID'],
         fName = data['fName'],
         lName = data['lName'],
         email = data['email'],
@@ -36,5 +37,5 @@ def create_user_endpoint():
         aType = AccountTypeEnum[data['aType']],
         specialR = data['specialR']
         )
-    return jsonify({'message': f"user {user.email} created with id {user.UserID}"})
+    return jsonify({'message': f"user {user.email} created with id {user.usersID}"})
 

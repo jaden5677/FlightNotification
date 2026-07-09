@@ -45,7 +45,7 @@ class User(db.Model):
             'DOB': self.DOB,
             'gender': self.gender,
             'cNumber': self.cNumber,
-            'aType': self.aType,
+            'aType': self.aType.name if self.aType else None,
             'specialR': self.specialR
 
         }

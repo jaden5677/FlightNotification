@@ -26,23 +26,36 @@ export class Login {
     readonly email = signal('');
     readonly password = signal('');
     readonly submitting = signal(false);
+    readonly error = signal<string | null>(null);
 
     submit(): void {
         this.submitting.set(true);
+        this.error.set(null);
         this.auth.login(this.email(), this.password()).subscribe({
-            next: () => this.router.navigate(['/flight-search']),
-            complete: () => this.submitting.set(false),
-            error: () => this.submitting.set(false),
+            next: () => {
+                this.submitting.set(false);
+                this.router.navigate(['/flight-search']);
+            },
+            error: () => {
+                this.submitting.set(false);
+                this.error.set('Invalid email or password.');
+            },
         });
     }
 
     // Stub only - no Azure AD/MSAL integration exists in the backend yet.
     continueWithMicrosoft(): void {
         this.submitting.set(true);
+        this.error.set(null);
         this.auth.loginWithMicrosoft().subscribe({
-            next: () => this.router.navigate(['/flight-search']),
-            complete: () => this.submitting.set(false),
-            error: () => this.submitting.set(false),
+            next: () => {
+                this.submitting.set(false);
+                this.router.navigate(['/flight-search']);
+            },
+            error: () => {
+                this.submitting.set(false);
+                this.error.set('Microsoft sign-in is not available yet.');
+            },
         });
     }
 }

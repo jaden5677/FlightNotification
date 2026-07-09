@@ -1,21 +1,22 @@
 <mat-toolbar class="shell-toolbar">
-  <span class="brand">Passenger Notifications Portal</span>
+  <span class="brand">
+    <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true">
+      <path
+        fill="#e4007c"
+        d="M2 14c4-1 7-3 9-6 1 2 3 3 5 3-1 2-3 4-6 5 3 0 5-1 7-3-1 4-5 7-10 7-3 0-5-1-6-3 1 0 2 0 3-1-2 0-3-1-4-2 1 0 2 0 3-1-1-1-2-2-2-3z"
+      />
+    </svg>
+    <span class="brand-text">Passenger Notifications Portal</span>
+  </span>
 
   <nav class="shell-nav">
-    <a
-      mat-button
-      routerLink="/flight-search"
-      routerLinkActive="active-link"
-      [routerLinkActiveOptions]="{ exact: false }"
-    >
-      Flight Search
-    </a>
+    <a mat-button routerLink="/flight-search" routerLinkActive="active-link">Flight Search</a>
     <a mat-button routerLink="/dashboard" routerLinkActive="active-link">Dashboard</a>
   </nav>
 
   <span class="shell-spacer"></span>
 
-  <button mat-raised-button color="primary" (click)="logout()">
+  <button mat-flat-button color="primary" class="logout-button" (click)="logout()">
     <mat-icon>logout</mat-icon>
     Logout
   </button>

@@ -13,6 +13,4 @@ def list_notification_by_flight(flight_number):
 
 def list_json_notifications_by_flight_id(flight_id):
     notifications = list_notification_by_flight(flight_id)
-    for notification in notifications:
-        alljson += notification.get_json()
-    return alljson
+    return [notification.get_json() for notification in notifications]

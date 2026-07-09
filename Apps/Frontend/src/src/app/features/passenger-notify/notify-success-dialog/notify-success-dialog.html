@@ -1,9 +1,10 @@
-<h2 mat-dialog-title>Success</h2>
-
-<mat-dialog-content>
-  <p>Your notification message was sent to {{ data.passengerCount }} passengers</p>
-</mat-dialog-content>
-
-<mat-dialog-actions align="end">
-  <button mat-raised-button color="primary" (click)="close()">Close</button>
-</mat-dialog-actions>
+<div class="success-body">
+  <mat-icon class="success-icon">check_circle</mat-icon>
+  <h2 mat-dialog-title>Success</h2>
+  <mat-dialog-content>
+    <p>Your notification message was sent to {{ data.passengerCount }} passengers</p>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-flat-button color="primary" (click)="close()">Close</button>
+  </mat-dialog-actions>
+</div>

@@ -23,8 +23,8 @@ function mkFlight(id: number, flightNumber: string, origin: string, destination:
         flight_number: flightNumber,
         departure_airport: origin,
         arrival_airport: destination,
-        departure_time: new Date('2026-07-07T15:35:00'),
-        arrival_time: new Date('2026-07-07T19:35:00'),
+        departure_time: '2026-07-07T15:35:00',
+        arrival_time: '2026-07-07T19:35:00',
         aircrafttype: 'B737',
     };
 }
@@ -48,7 +48,8 @@ export class MockFlightService extends FlightService {
     }
 }
 
-function isSameDay(a: Date, b: Date): boolean {
+function isSameDay(iso: string, b: Date): boolean {
+    const a = new Date(iso);
     return (
         a.getFullYear() === b.getFullYear() &&
         a.getMonth() === b.getMonth() &&

@@ -7,11 +7,10 @@ from Backend.models.accttype import AccountTypeEnum
 emailpattern = re.compile(r'^[A-Za-z.]+@caribbean-airlines\.com$', re.IGNORECASE)
 
 def login(email, password):
-  x = re.search(emailpattern, email)
   if not email or not emailpattern.match(email):
     return None
-  user = db.session.execute(db.select(User). filter_by(email=email).scalar_one_or_none())
-  if user and user.aType == AccountTypeEnum.Admin and user.check_pssword(password):
+  user = db.session.execute(db.select(User).filter_by(email=email)).scalar_one_or_none()
+  if user and user.aType == AccountTypeEnum.ADMIN and user.check_password(password):
      return create_access_token(identity = user.usersID)
   return None
 

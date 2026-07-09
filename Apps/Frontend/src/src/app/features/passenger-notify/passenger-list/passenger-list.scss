@@ -1,7 +1,26 @@
+.page-title {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin: 0 0 4px;
+}
+
 .subtitle {
     color: var(--mat-sys-outline);
-    margin-top: -8px;
-    margin-bottom: 24px;
+    margin: 0 0 24px;
+}
+
+.table-card {
+    background: #fff;
+    border: 1px solid var(--mat-sys-outline-variant);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    padding: 48px;
 }
 
 .passenger-table {
@@ -10,15 +29,32 @@
 
     th {
         text-align: left;
-        padding: 12px 16px;
-        border-bottom: 2px solid var(--mat-sys-outline-variant);
-        font-size: 0.8rem;
+        padding: 14px 16px;
+        border-bottom: 1px solid var(--mat-sys-outline-variant);
+        font-size: 0.72rem;
+        letter-spacing: 0.04em;
+        color: var(--mat-sys-outline);
+        font-weight: 600;
     }
 
     td {
         padding: 12px 16px;
         border-bottom: 1px solid var(--mat-sys-outline-variant);
+        font-size: 0.9rem;
     }
+
+    tbody tr:last-child td {
+        border-bottom: none;
+    }
+}
+
+.selected-row {
+    background: rgba(228, 0, 124, 0.04);
+}
+
+.select-col {
+    text-align: right;
+    width: 120px;
 }
 
 .empty-state {
@@ -29,6 +65,24 @@
 
 .actions {
     display: flex;
-    gap: 12px;
-    margin-top: 24px;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 28px;
+
+    button {
+        min-width: 120px;
+        height: 42px;
+    }
+}
+
+// Green checkmarks for selected rows, matching the Figma. ::ng-deep is needed
+// to reach the MDC checkbox internals rendered inside the mat-checkbox.
+::ng-deep .passenger-table .mat-mdc-checkbox.mat-mdc-checkbox-checked {
+    .mdc-checkbox__background {
+        background-color: #2e9b4f !important;
+        border-color: #2e9b4f !important;
+    }
+    .mdc-checkbox__ripple {
+        background-color: rgba(46, 155, 79, 0.1) !important;
+    }
 }

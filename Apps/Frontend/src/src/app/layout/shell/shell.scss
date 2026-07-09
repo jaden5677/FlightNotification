@@ -5,15 +5,22 @@
     background: #fff;
     color: var(--mat-sys-on-surface);
     border-bottom: 1px solid var(--mat-sys-outline-variant);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
 }
 
 .brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.brand-text {
     font-weight: 600;
 }
 
 .shell-nav {
     display: flex;
-    gap: 8px;
+    gap: 4px;
 }
 
 .active-link {
@@ -25,8 +32,14 @@
     flex: 1 1 auto;
 }
 
+.logout-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
 .shell-content {
-    padding: 24px;
+    padding: 32px 24px;
     max-width: 1200px;
     margin: 0 auto;
 }

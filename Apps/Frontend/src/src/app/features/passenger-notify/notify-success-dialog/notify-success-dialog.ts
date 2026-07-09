@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 export interface NotifySuccessDialogData {
     passengerCount: number;
@@ -8,7 +9,7 @@ export interface NotifySuccessDialogData {
 
 @Component({
     selector: 'app-notify-success-dialog',
-    imports: [MatDialogModule, MatButtonModule],
+    imports: [MatDialogModule, MatButtonModule, MatIconModule],
     templateUrl: './notify-success-dialog.html',
     styleUrl: './notify-success-dialog.scss',
 })

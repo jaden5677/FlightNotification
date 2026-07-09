@@ -6,7 +6,7 @@ export interface FlightDto {
     flight_number: string;
     departure_airport: string;
     arrival_airport: string;
-    departure_time: Date;
-    arrival_time: Date;
+    departure_time: string;
+    arrival_time: string;
     aircrafttype: string;
 }

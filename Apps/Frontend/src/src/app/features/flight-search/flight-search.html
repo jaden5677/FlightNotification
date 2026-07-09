@@ -1,36 +1,44 @@
-<h1>Notification System</h1>
+<h1 class="page-title">Notification System</h1>
 <p class="subtitle">Search Customers to notify</p>
 
-<form class="search-form" (ngSubmit)="search()">
-  <mat-form-field appearance="outline">
-    <mat-label>Select Flight Date</mat-label>
-    <input
-      matInput
-      [matDatepicker]="picker"
-      [ngModel]="selectedDate()"
-      (ngModelChange)="selectedDate.set($event)"
-      name="date"
-    />
-    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
+<div class="search-card">
+  <form class="search-form" (ngSubmit)="search()">
+    <mat-form-field appearance="outline" class="field">
+      <mat-label>Select Flight Date</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        [ngModel]="selectedDate()"
+        (ngModelChange)="selectedDate.set($event)"
+        name="date"
+      />
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
 
-  <mat-form-field appearance="outline">
-    <mat-label>Select Flight Number</mat-label>
-    <mat-select
-      [ngModel]="selectedFlightNumber()"
-      (ngModelChange)="selectedFlightNumber.set($event)"
-      name="flightNumber"
+    <mat-form-field appearance="outline" class="field">
+      <mat-label>Select Flight Number</mat-label>
+      <mat-select
+        [ngModel]="selectedFlightNumber()"
+        (ngModelChange)="selectedFlightNumber.set($event)"
+        name="flightNumber"
+      >
+        @for (flight of flights(); track flight.id) {
+          <mat-option [value]="flight.flight_number">
+            {{ flight.flight_number }} - {{ flight.departure_airport }}/{{ flight.arrival_airport }}
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <button
+      mat-flat-button
+      color="primary"
+      type="submit"
+      class="search-button"
+      [disabled]="searching() || !selectedFlightNumber()"
     >
-      @for (flight of flights(); track flight.id) {
-        <mat-option [value]="flight.flight_number">
-          {{ flight.flight_number }} - {{ flight.departure_airport }}/{{ flight.arrival_airport }}
-        </mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
-
-  <button mat-raised-button color="primary" type="submit" [disabled]="searching() || !selectedFlightNumber()">
-    Search Flight
-  </button>
-</form>
+      Search Flight
+    </button>
+  </form>
+</div>
