@@ -4,7 +4,7 @@ from Backend.models import User
 from Backend.database import db
 from Backend.models.notiftype import NotifType
 from Backend.models.accttype import AccountTypeEnum
-emailpattern = re.compute(r'^[A-Za-z.]+@caribbean-airlines\.com$', re.IGNORECASE)
+emailpattern = re.compile(r'^[A-Za-z.]+@caribbean-airlines\.com$', re.IGNORECASE)
 
 def login(email, password):
   x = re.search(emailpattern, email)

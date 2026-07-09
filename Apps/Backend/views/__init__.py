@@ -7,5 +7,5 @@ from .flights import flight_views
 
 
 
-views = [user_views, index_views, auth_views] 
+views = [user_views, index_views, auth_views, flight_views] 
 # blueprints must be added to this list
