@@ -21,4 +21,8 @@ export class HttpNotificationService extends NotificationService {
             { notif_type: notifType, message, gate },
         );
     }
+
+    list(): Observable<NotificationDto[]> {
+        return this.http.get<NotificationDto[]>(`${API_BASE_URL}/api/notifications`);
+    }
 }

@@ -9,7 +9,7 @@
         matInput
         [matDatepicker]="picker"
         [ngModel]="selectedDate()"
-        (ngModelChange)="selectedDate.set($event)"
+        (ngModelChange)="onDateChange($event)"
         name="date"
       />
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
@@ -21,6 +21,7 @@
       <mat-select
         [ngModel]="selectedFlightNumber()"
         (ngModelChange)="selectedFlightNumber.set($event)"
+        [disabled]="!selectedDate()"
         name="flightNumber"
       >
         @for (flight of flights(); track flight.id) {

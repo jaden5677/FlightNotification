@@ -14,4 +14,8 @@ export abstract class NotificationService {
         message: string,
         gate: string | null,
     ): Observable<NotificationDto>;
+
+    // Full notification history across all flights, newest first. Mirrors
+    // GET /api/notifications; the dashboard groups the result by flight_number.
+    abstract list(): Observable<NotificationDto[]>;
 }

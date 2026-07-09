@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -22,7 +22,7 @@ import { FlightDto } from '../../core/models/flight.model';
     templateUrl: './flight-search.html',
     styleUrl: './flight-search.scss',
 })
-export class FlightSearch implements OnInit {
+export class FlightSearch {
     private readonly flightService = inject(FlightService);
     private readonly router = inject(Router);
 
@@ -31,10 +31,16 @@ export class FlightSearch implements OnInit {
     readonly selectedFlightNumber = signal<string | null>(null);
     readonly searching = signal(false);
 
-    ngOnInit(): void {
-        // Populate the flight-number dropdown with every known flight up front,
-        // matching the Figma "Select Flight Number" list.
-        this.flightService.search(null, null).subscribe((flights) => this.flights.set(flights));
+    // The flight-number dropdown only lists flights departing on the chosen
+    // date, so re-query whenever the date changes and reset the selection.
+    onDateChange(date: Date | null): void {
+        this.selectedDate.set(date);
+        this.selectedFlightNumber.set(null);
+        this.flights.set([]);
+        if (!date) {
+            return;
+        }
+        this.flightService.search(date, null).subscribe((flights) => this.flights.set(flights));
     }
 
     search(): void {

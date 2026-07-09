@@ -10,7 +10,8 @@ from Backend.controllers.flights import (
 from Backend.controllers.notification import(
     list_notification_by_flight,
     create_notification,
-    list_json_notifications_by_flight_id
+    list_json_notifications_by_flight_id,
+    list_all_json_notifications
 )
 from Backend.controllers.passenger import (
     list_json_passengers_by_flight
@@ -19,6 +20,11 @@ from Backend.models.notiftype import *
 
 
 flight_views = Blueprint('flight_views', __name__)
+
+@flight_views.route('/api/notifications', methods=['Get'])
+@jwt_required()
+def get_all_notifications_action():
+    return jsonify(list_all_json_notifications())
 
 @flight_views.route('/api/flights', methods=['Get'])
 @jwt_required()
