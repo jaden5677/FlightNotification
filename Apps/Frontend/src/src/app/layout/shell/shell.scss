@@ -1,0 +1,32 @@
+.shell-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    background: #fff;
+    color: var(--mat-sys-on-surface);
+    border-bottom: 1px solid var(--mat-sys-outline-variant);
+}
+
+.brand {
+    font-weight: 600;
+}
+
+.shell-nav {
+    display: flex;
+    gap: 8px;
+}
+
+.active-link {
+    color: var(--brand-magenta);
+    font-weight: 600;
+}
+
+.shell-spacer {
+    flex: 1 1 auto;
+}
+
+.shell-content {
+    padding: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+}

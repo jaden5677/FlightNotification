@@ -1,0 +1,12 @@
+.subtitle {
+    color: var(--mat-sys-outline);
+    margin-top: -8px;
+    margin-bottom: 24px;
+}
+
+.search-form {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    flex-wrap: wrap;
+}

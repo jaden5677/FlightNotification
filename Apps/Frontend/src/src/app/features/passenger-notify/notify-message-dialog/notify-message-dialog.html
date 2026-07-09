@@ -1,0 +1,19 @@
+<h2 mat-dialog-title>Type Notification Message</h2>
+
+<mat-dialog-content>
+  <mat-form-field appearance="outline" class="full-width">
+    <textarea matInput rows="6" [(ngModel)]="message" name="message"></textarea>
+  </mat-form-field>
+
+  <p class="passenger-count">Number of Passengers selected: {{ data.passengerCount }}</p>
+  <p class="confirm-text">
+    Are you sure you want to send this message to the selected passengers?
+  </p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" [disabled]="!message" (click)="send()">
+    Send Notification
+  </button>
+  <button mat-stroked-button (click)="cancel()">Cancel</button>
+</mat-dialog-actions>

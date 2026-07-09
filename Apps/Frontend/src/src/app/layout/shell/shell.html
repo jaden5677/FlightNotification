@@ -1,0 +1,26 @@
+<mat-toolbar class="shell-toolbar">
+  <span class="brand">Passenger Notifications Portal</span>
+
+  <nav class="shell-nav">
+    <a
+      mat-button
+      routerLink="/flight-search"
+      routerLinkActive="active-link"
+      [routerLinkActiveOptions]="{ exact: false }"
+    >
+      Flight Search
+    </a>
+    <a mat-button routerLink="/dashboard" routerLinkActive="active-link">Dashboard</a>
+  </nav>
+
+  <span class="shell-spacer"></span>
+
+  <button mat-raised-button color="primary" (click)="logout()">
+    <mat-icon>logout</mat-icon>
+    Logout
+  </button>
+</mat-toolbar>
+
+<main class="shell-content">
+  <router-outlet />
+</main>

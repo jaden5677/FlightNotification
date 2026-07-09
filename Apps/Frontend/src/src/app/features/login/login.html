@@ -1,0 +1,48 @@
+<div class="login-page">
+  <section class="brand-gradient-panel login-brand">
+    <div class="login-brand-content">
+      <div class="airline-logo">Caribbean Airlines</div>
+      <h1>Welcome Admin</h1>
+    </div>
+  </section>
+
+  <section class="login-form-panel">
+    <form class="login-form" (ngSubmit)="submit()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Enter your email address</mat-label>
+        <input matInput type="email" name="email" [ngModel]="email()" (ngModelChange)="email.set($event)" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Enter your password</mat-label>
+        <input matInput type="password" name="password" [ngModel]="password()" (ngModelChange)="password.set($event)" required />
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" class="full-width" [disabled]="submitting()">
+        Sign In
+      </button>
+
+      <a class="forgot-password" href="javascript:void(0)">Forgot password?</a>
+
+      <div class="divider"><span>OR</span></div>
+
+      <p class="sso-hint">Sign in with your Caribbean Airlines Account</p>
+
+      <button
+        mat-stroked-button
+        type="button"
+        class="full-width microsoft-button"
+        [disabled]="submitting()"
+        (click)="continueWithMicrosoft()"
+      >
+        <mat-icon>window</mat-icon>
+        Continue with Microsoft Account
+      </button>
+
+      <p class="secure-auth-note">
+        <mat-icon inline>lock</mat-icon>
+        Secure authentication via Microsoft Active Directory
+      </p>
+    </form>
+  </section>
+</div>
