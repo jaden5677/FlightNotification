@@ -8,11 +8,14 @@ WORKDIR /app
 RUN corepack enable
 
 # Install dependencies from the lockfile first so this layer is cached until
-# the manifests actually change.
+# the manifests actually change. --no-audit/--no-fund and limited sockets keep
+# the install lighter (helps on memory-constrained Docker hosts).
 COPY package.json package-lock.json ./
-RUN npm ci
+RUN npm ci --no-audit --no-fund --maxsockets 3
 
-# Build the production browser bundle -> dist/src/browser
+# Build the production browser bundle -> dist/src/browser. Cap the V8 heap so
+# the build fails loudly instead of being OOM-killed on small hosts.
+ENV NODE_OPTIONS=--max_old_space_size=2048
 COPY . .
 RUN npm run build
 

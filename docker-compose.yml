@@ -7,7 +7,10 @@ services:
       MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD}
       MSSQL_PID: Developer
     volumes:
-      - ./mssql-data:/var/opt/mssql
+      # Named volume (lives on the Linux VM's ext4), NOT a Windows host bind
+      # mount. SQL Server on Linux crashes in sqlpal at startup when /var/opt/
+      # mssql is backed by an NTFS bind mount under Docker Desktop/WSL2.
+      - mssql-data:/var/opt/mssql
     # No ports published to the host: Zscaler blocks host-level access to 1433.
     # The backend reaches this service only over the internal compose network.
     healthcheck:
@@ -27,7 +30,10 @@ services:
       db:
         condition: service_healthy
     environment:
-      FLASK_APP: wsgi.py
+      # Code lives at /home/app/Backend/wsgi.py (PYTHONPATH=/home/app), so the
+      # importable module is Backend.wsgi. Plain "wsgi.py" fails to import and
+      # breaks `flask init` in entrypoint.sh.
+      FLASK_APP: Backend.wsgi
       SECRET_KEY: ${SECRET_KEY}
       DB_HOST: db
       DB_NAME: FlightNotificationDb
@@ -49,3 +55,6 @@ services:
     ports:
       - "4200:80"
     restart: unless-stopped
+
+volumes:
+  mssql-data:
