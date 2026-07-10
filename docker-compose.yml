@@ -22,7 +22,7 @@ services:
     restart: unless-stopped
 
   backend:
-    build:
+    build:https://github.com/jaden5677/FlightNotification/pull/3/conflict?name=docker-compose.yml&ancestor_oid=0237f7915b74b464ad02b9f4e22fb2467ba9d68d&base_oid=a4023b2edf34b101610eab2ad8493c271ab14803&head_oid=afa89af5b5b795b4fb212632e10c97f330d74ba7
       context: ./Apps/Backend
       dockerfile: .Dockerfile
     container_name: flightnotification-backend
