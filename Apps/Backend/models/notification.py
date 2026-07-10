@@ -5,7 +5,9 @@ class Notification(db.Model):
     __tablename__ = 'notifications'
 
     id = db.Column(db.Integer, primary_key=True)
-    flight_number = db.Column(db.String(), db.ForeignKey('flights.flight_number'), nullable=False)
+    # Length must match flights.flight_number (String(10)); MSSQL rejects a FK
+    # whose columns differ in length (a bare db.String() becomes VARCHAR(max)).
+    flight_number = db.Column(db.String(10), db.ForeignKey('flights.flight_number'), nullable=False)
     notif_type = db.Column(db.Enum(NotifType), nullable=False)
     message = db.Column(db.String(255), nullable=False)
     gate = db.Column(db.String(10), nullable=True)

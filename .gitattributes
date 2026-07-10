@@ -1,0 +1,5 @@
+# Shell scripts must use LF line endings, otherwise a CRLF shebang makes the
+# Linux loader fail with "exec ./entrypoint.sh: no such file or directory"
+# inside containers. Force LF regardless of core.autocrlf / platform.
+*.sh text eol=lf
+entrypoint.sh text eol=lf

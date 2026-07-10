@@ -6,6 +6,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         gnupg2 \
         ca-certificates \
         unixodbc-dev \
+        # msodbcsql18 dlopens this at runtime but doesn't depend on it; install
+        # it explicitly so the `--auto-remove` of curl below can't delete it
+        # (otherwise sqlcmd fails: "Can't open lib ... libmsodbcsql ... not found").
+        libgssapi-krb5-2 \
     && curl -sSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o /usr/share/keyrings/microsoft-prod.gpg \
     && echo "deb [arch=amd64,arm64 signed-by=/usr/share/keyrings/microsoft-prod.gpg] https://packages.microsoft.com/debian/12/prod bookworm main" \
         > /etc/apt/sources.list.d/mssql-release.list \
@@ -29,7 +33,9 @@ RUN adduser --disabled-password --gecos "" nonroot \
 # contents of Apps/Backend) must live under a `Backend/` package dir that sits
 # on PYTHONPATH — not flat in the workdir.
 COPY --chown=nonroot:nonroot . ./Backend
-RUN chmod +x Backend/entrypoint.sh
+# Strip any CRLF (Windows checkouts) before making it executable, otherwise a
+# `#!/bin/sh\r` shebang fails with "no such file or directory" at exec time.
+RUN sed -i 's/\r$//' Backend/entrypoint.sh && chmod +x Backend/entrypoint.sh
 
 ENV PYTHONPATH=/home/app
 ENV FLASK_APP=Backend.wsgi
